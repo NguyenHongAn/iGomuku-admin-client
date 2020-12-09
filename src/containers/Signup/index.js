@@ -41,7 +41,7 @@ export default function SignupPage() {
             appearance: "success",
             autoDismiss: true,
           });
-          history.push("/auth/signin");
+          history.push("/");
         }
       })
       .catch(function (error) {

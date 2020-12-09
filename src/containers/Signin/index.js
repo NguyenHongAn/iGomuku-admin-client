@@ -46,7 +46,7 @@ export default function LoginPage() {
           localStorage.setItem("jwtToken", response.data.token);
           localStorage.setItem("fullname", response.data.account.fullname);
           localStorage.setItem("userID", response.data.account._id);
-          history.push("/igomoku");
+          history.push("/admin");
         }
       })
       .catch(function (error) {
@@ -81,7 +81,7 @@ export default function LoginPage() {
           localStorage.setItem("jwtToken", response.data.token);
           localStorage.setItem("fullname", response.data.account.fullname);
           localStorage.setItem("userID", response.data.account._id);
-         history.push("/igomoku");
+         history.push("/admin");
         }
       })
       .catch(function (error) {
@@ -116,7 +116,7 @@ export default function LoginPage() {
           localStorage.setItem("jwtToken", response.data.token);
           localStorage.setItem("fullname", response.data.account.fullname);
           localStorage.setItem("userID", response.data.account._id);
-          history.push("/igomoku");
+          history.push("/admin");
         }
       })
       .catch(function (error) {
