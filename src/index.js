@@ -1,19 +1,15 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import store from './store/configStore';
-import { Provider } from 'react-redux';
+import DashApp from './dashApp';
+import registerServiceWorker from './registerServiceWorker';
 
-ReactDOM.render(
-  <Provider store={store}>
-      <App />
-    </Provider>,
-  document.getElementById('root')
-);
+ReactDOM.render(<DashApp />, document.getElementById('root'));
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
+// Hot Module Replacement API
+if (module.hot) {
+  module.hot.accept('./dashApp.js', () => {
+    const NextApp = require('./dashApp').default;
+    ReactDOM.render(<NextApp />, document.getElementById('root'));
+  });
+}
+registerServiceWorker();
