@@ -30,7 +30,7 @@ const TheHeaderDropdown = ({ callbackLogout }) => {
         </div>
       </CDropdownToggle>
       <CDropdownMenu className="pt-0" placement="bottom-end">
-        <CDropdownItem header tag="div" color="light" className="text-center">
+        {/* <CDropdownItem header tag="div" color="light" className="text-center">
           <strong>Account</strong>
         </CDropdownItem>
         <CDropdownItem>
@@ -60,7 +60,7 @@ const TheHeaderDropdown = ({ callbackLogout }) => {
           <CBadge color="warning" className="mfs-auto">
             42
           </CBadge>
-        </CDropdownItem>
+        </CDropdownItem> */}
         <CDropdownItem header tag="div" color="light" className="text-center">
           <strong>Settings</strong>
         </CDropdownItem>

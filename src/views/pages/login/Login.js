@@ -18,6 +18,7 @@ import CIcon from "@coreui/icons-react";
 import { useSelector, useDispatch } from "react-redux";
 import { authActions } from "../../../store/actions/authActions";
 import axios from "axios";
+import { useToasts } from "react-toast-notifications";
 
 const USERURL =
   process.env.REACT_APP_ENV === "dev"
@@ -30,6 +31,7 @@ const APIURL =
     : process.env.REACT_APP_DEPLOY_APIURL;
 
 const Login = () => {
+  const { addToast } = useToasts();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [isLoading, setLoading] = useState(false);
@@ -65,10 +67,10 @@ const Login = () => {
       .catch(function (error) {
         setLoading(false); //
         console.log(error);
-        // addToast(error.response.data.message, {
-        //   appearance: "error",
-        //   autoDismiss: true,
-        // });
+        addToast("Login information is incorrect", {
+          appearance: "error",
+          autoDismiss: true,
+        });
       });
   }
 

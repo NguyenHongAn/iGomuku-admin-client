@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux'
+import { useSelector, useDispatch, connect } from 'react-redux'
 import {
   CHeader,
   CToggler,
@@ -25,7 +25,7 @@ import {
 
 import ReduxAction from "../store/actions";
 
-const TheHeader = () => {
+const TheHeader = ({ isAuthenticated }) => {
     //redux
     const { jwtToken, fullname, userID, autoMatch } = useSelector(state => ({
       jwtToken: state.auth.jwtToken,
@@ -39,7 +39,8 @@ const TheHeader = () => {
     //const location = useLocation();
   
     useEffect(() => {
-  
+      if (!isAuthenticated)
+        window.location.href = '/#/login';
     });
   const sidebarShow = useSelector(state => state.ui.sidebarShow)
 
@@ -55,7 +56,7 @@ const TheHeader = () => {
 
   const logout = () => {
     dispatch(ReduxAction.auth.signOut);
-    dispatch(ReduxAction.match.restoreDefault);
+    //dispatch(ReduxAction.match.restoreDefault);
     // socket.emit("sign-out", { userID });
   }
 
@@ -100,4 +101,13 @@ const TheHeader = () => {
   )
 }
 
-export default TheHeader
+const mapStateToProps = state => {
+  return {
+    isAuthenticated: (state.auth.jwtToken !== "invalid token :))") ? true : false
+  }
+}
+
+
+export default connect(
+  mapStateToProps,
+)(TheHeader)
