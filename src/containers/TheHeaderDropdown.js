@@ -8,8 +8,9 @@ import {
   CImg
 } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
+import { Link } from 'react-router-dom';
 
-const TheHeaderDropdown = () => {
+const TheHeaderDropdown = ({ callbackLogout }) => {
   return (
     <CDropdown
       inNav
@@ -82,7 +83,7 @@ const TheHeaderDropdown = () => {
         <CDropdownItem divider />
         <CDropdownItem>
           <CIcon name="cil-lock-locked" className="mfe-2" />
-          Lock Account
+          <Link className="text-light nav-link" to="/auth/signin" onClick={() => callbackLogout()}>Sign Out</Link>
         </CDropdownItem>
       </CDropdownMenu>
     </CDropdown>

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux'
 import {
   CHeader,
@@ -23,8 +23,24 @@ import {
   TheHeaderDropdownTasks
 }  from './index'
 
+import ReduxAction from "../store/actions";
+
 const TheHeader = () => {
-  const dispatch = useDispatch()
+    //redux
+    const { jwtToken, fullname, userID, autoMatch } = useSelector(state => ({
+      jwtToken: state.auth.jwtToken,
+      fullname: state.auth.fullname,
+      userID: state.auth.userID,
+      autoMatch: state.auth.autoMatch,
+    }));
+  
+    // const socket = useSelector(state => state.socket.socket);
+    const dispatch = useDispatch();
+    //const location = useLocation();
+  
+    useEffect(() => {
+  
+    });
   const sidebarShow = useSelector(state => state.sidebarShow)
 
   const toggleSidebar = () => {
@@ -35,6 +51,12 @@ const TheHeader = () => {
   const toggleSidebarMobile = () => {
     const val = [false, 'responsive'].includes(sidebarShow) ? true : 'responsive'
     dispatch({type: 'set', sidebarShow: val})
+  }
+
+  function logout() {
+    dispatch(ReduxAction.auth.signOut);
+    dispatch(ReduxAction.match.restoreDefault);
+    // socket.emit("sign-out", { userID });
   }
 
   return (
@@ -69,7 +91,7 @@ const TheHeader = () => {
         <TheHeaderDropdownNotif/>
         <TheHeaderDropdownTasks/>
         <TheHeaderDropdownMssg/>
-        <TheHeaderDropdown/>
+        <TheHeaderDropdown callbackLogout={logout}/>
       </CHeaderNav>
 
       <CSubheader className="px-3 justify-content-between">
