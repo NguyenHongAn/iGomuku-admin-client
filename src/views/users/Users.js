@@ -40,7 +40,7 @@ const Users = () => {
   return (
     <CRow>
       <CCol xl={6}>
-        <CCard>
+        <CCard style={{minWidth: "80vw"}}>
           <CCardHeader>
             Users
             <small className="text-muted"> example</small>
