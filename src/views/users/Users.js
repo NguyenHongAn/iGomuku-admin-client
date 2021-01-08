@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { useHistory, useLocation } from 'react-router-dom'
 import {
+  CButton,
   CBadge,
   CCard,
   CCardBody,
@@ -99,22 +100,33 @@ const Users = () => {
       <CCol xl={6}>
         <CCard style={{minWidth: "80vw"}}>
           <CCardHeader>
-            Users
-            <small className="text-muted"> iGomoku</small>
+            <h2>Users
+            <small className="text-muted"> iGomoku</small></h2>
           </CCardHeader>
           <CCardBody>
           <CDataTable
             items={usersList}
-            fields={['_id',
+            fields={[
               { key: 'fullname', _classes: 'font-weight-bold' },
-              'username','createdDate', 'accountStatus'
+              'username',
+              'email',
+              'createdDate',
+              { key: 'accountStatus', filter: false },
+              {
+                key: 'action',
+                label: '',
+                _style: { width: '10%' },
+                sorter: false,
+                filter: false
+              }
             ]}
             hover
             striped
+            columnFilter
+            tableFilter
+            sorter
             itemsPerPage={10}
             activePage={page}
-            clickableRows
-            onRowClick={(item) => history.push(`/users/${item._id}`)}
             scopedSlots = {{
               'accountStatus':
                 (item)=>(
@@ -129,7 +141,23 @@ const Users = () => {
                   <td>
                     {parseDateTime(item.createdDate)}
                   </td>
-                )
+                ),
+                'action':
+                  (item, index)=>{
+                    return (
+                      <td className="py-2">
+                        <CButton
+                          color="primary"
+                          variant="outline"
+                          shape="square"
+                          size="sm"
+                          onClick={()=>{history.push(`/users/${item._id}`)}}
+                        >
+                          Profile
+                        </CButton>
+                      </td>
+                      )
+                  }
             }}
           />
           <CPagination

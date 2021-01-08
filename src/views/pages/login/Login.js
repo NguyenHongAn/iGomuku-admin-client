@@ -61,7 +61,7 @@ const Login = () => {
           };
           
           dispatch(authActions.signIn(authData));
-          history.push("/dashboard");
+          history.push("/users");
         }
       })
       .catch(function (error) {
