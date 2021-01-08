@@ -16,6 +16,19 @@ const adminReducer = (state = defaultState, action) =>{
                 ...state,
                 usersList: action.payload,
             }
+        case 'userAccountStatus/update':
+            {
+                const newList = Array.from(state.usersList);
+                newList.forEach(function(item){
+                    if (item._id === action.payload.userID) {
+                        item.accountStatus = action.payload.status;
+                    }
+                });
+                return{
+                    ...state,
+                    usersList: newList,
+                }
+            }
         // case "onlineUser/addnew":
         //     {
         //         const newList = Array.from(state.users);

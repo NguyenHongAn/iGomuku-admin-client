@@ -26,6 +26,15 @@ const updateUsersList = (usersList) =>{
     };
 } 
 
+const updateUserAccountStatus = (payload) =>{
+    return (dispatch) =>{
+        dispatch({
+            type: 'userAccountStatus/update',
+            payload: payload,
+        })
+    };
+} 
+
 // const addNewUserOnline = (user) =>{
 //     return (dispatch)=>{
 //         dispatch({
@@ -37,6 +46,7 @@ const updateUsersList = (usersList) =>{
 
 export const adminActions = {
     updateUsersList,
+    updateUserAccountStatus,
     // addNewFriend,
     // updateFriendList,
     // addNewUserOnline,

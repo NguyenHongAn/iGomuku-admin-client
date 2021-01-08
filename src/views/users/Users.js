@@ -15,6 +15,7 @@ import axiosInstance from '../../api';
 import { useSelector, useDispatch } from 'react-redux';
 import { useToasts } from "react-toast-notifications";
 import ReduxAction from "../../store/actions";
+import { Confirm } from 'react-st-modal';
 
 //import usersData from './UsersData'
 
@@ -61,6 +62,49 @@ const Users = () => {
 
   const pageChange = newPage => {
     currentPage !== newPage && history.push(`/users?page=${newPage}`)
+  }
+
+  const handleBlockUser = (UserID) => {
+    axiosInstance
+    .post(`/admin/set-user-status`, {
+        adminId: userID,
+        userId: UserID,
+        status: 1,
+      })
+      .then(function (response) {
+        if (response.status === 200) {
+          //TODO: cập nhật account status sau khi block
+          dispatch(ReduxAction.admin.updateUserAccountStatus({userID: UserID, status: 1}));
+        }
+      })
+      .catch(function (error) {
+        console.log(error);
+        addToast(error.response.data.message, {//
+          appearance: "error",
+          autoDismiss: true,
+        });
+      });
+  }
+
+  const handleUnBlockUser = (UserID) => {
+    axiosInstance
+    .post(`/admin/set-user-status`, {
+        adminId: userID,
+        userId: UserID,
+        status: 0,
+      })
+      .then(function (response) {
+        if (response.status === 200) {
+          dispatch(ReduxAction.admin.updateUserAccountStatus({userID: UserID, status: 0}));
+        }
+      })
+      .catch(function (error) {
+        console.log(error);
+        addToast(error.response.data.message, {//
+          appearance: "error",
+          autoDismiss: true,
+        });
+      });
   }
 
   useEffect(() => {
@@ -110,12 +154,12 @@ const Users = () => {
               { key: 'fullname', _classes: 'font-weight-bold' },
               'username',
               'email',
-              'createdDate',
-              { key: 'accountStatus', filter: false },
+              { key: 'createdDate', filter: false },
+              { key: 'accountStatus', filter: false, _style: { width: '12%' } },
               {
                 key: 'action',
                 label: '',
-                _style: { width: '10%' },
+                _style: { width: '13%' },
                 sorter: false,
                 filter: false
               }
@@ -130,7 +174,7 @@ const Users = () => {
             scopedSlots = {{
               'accountStatus':
                 (item)=>(
-                  <td>
+                  <td className="text-center">
                     <CBadge color={getBadge(item.accountStatus)}>
                       {getStatusName(item.accountStatus)}
                     </CBadge>
@@ -147,14 +191,49 @@ const Users = () => {
                     return (
                       <td className="py-2">
                         <CButton
-                          color="primary"
-                          variant="outline"
-                          shape="square"
+                          color="info"
                           size="sm"
                           onClick={()=>{history.push(`/users/${item._id}`)}}
                         >
                           Profile
                         </CButton>
+                        {item.accountStatus !== 1 ? 
+                          (<CButton
+                            style={{marginLeft: "10px", minWidth: "4.0625rem"}}
+                            color="danger"
+                            variant="outline"
+                            size="sm"
+                            onClick={async () => {
+                              const confirm = await Confirm(
+                                `Are you sure to BLOCK the user: ${item.fullname}?`,
+                                "Block user"
+                              );
+                              if (confirm) {
+                                handleBlockUser(item._id);
+                              }
+                            }}
+                          >
+                            Block
+                          </CButton>)
+                          :
+                          (<CButton
+                            style={{marginLeft: "10px", minWidth: "4.0625rem"}}
+                            color="success"
+                            variant="outline"
+                            size="sm"
+                            onClick={async () => {
+                              const confirm = await Confirm(
+                                `Are you sure to UNBLOCK the user: ${item.fullname}?`,
+                                "Block user"
+                              );
+                              if (confirm) {
+                                handleUnBlockUser(item._id);
+                              }
+                            }}
+                          >
+                            UnBlock
+                          </CButton>)
+                        }
                       </td>
                       )
                   }
