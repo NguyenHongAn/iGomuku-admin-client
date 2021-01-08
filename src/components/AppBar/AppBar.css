@@ -1,0 +1,23 @@
+.bar-bg
+{
+    background-color: #1a1b20!important;
+    box-shadow: 2px 0px 3px white;
+    padding: 10px!important;
+    position: relative;
+}
+
+.bar-bg a{
+    color: white!important;
+
+}
+
+.bar-bg a:hover 
+{
+    background-color: rgb(94, 93, 93);
+    color: white;
+}
+
+.auto-switch
+{
+    color: white;
+}

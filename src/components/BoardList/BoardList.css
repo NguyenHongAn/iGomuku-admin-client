@@ -1,0 +1,70 @@
+.board-list
+{
+    column-count: 2!important;
+    margin-top: 20px;
+}
+
+
+.board-card
+{
+    background-color: #1a1b20!important;
+    border: 2px solid #17a2b8!important;
+    border-radius: 1.25rem!important;
+    padding: 0px!important;
+}
+
+.board-info{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin: 0px;
+}
+
+.board-status
+{
+    display: inline-flex;
+    align-items: baseline;
+}
+
+.board-status p 
+{
+    margin: 0px;
+}
+.board-players
+{
+    display: flex;
+    margin: 0px!important;
+    justify-content: space-between;
+}
+
+.board-players p{
+    margin:0px;
+}
+
+.board-button{
+    display: flex;
+    justify-content: flex-end;
+}
+
+.board-button button{
+    width: 25%!important;
+    margin: 0px 2px 0px 2px;
+}
+
+.dot-waitting
+{
+    height: 10px;
+    width: 10px;
+    background-color: #ffc107;
+    border-radius: 50%;
+    display: inline-block;
+}
+
+.dot-playing
+{
+    height: 10px;
+    width: 10px;
+    background-color: green;
+    border-radius: 50%;
+    display: inline-block;
+}

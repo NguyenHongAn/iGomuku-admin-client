@@ -1,0 +1,16 @@
+.square
+{
+  background-color: whitesmoke;
+  font-size: 20px;
+
+}
+
+.active
+{
+    animation: blinker 1s linear infinite;
+}
+
+@keyframes blinker {
+    from {background-color: white;}
+  to {background-color: yellow;}
+  }

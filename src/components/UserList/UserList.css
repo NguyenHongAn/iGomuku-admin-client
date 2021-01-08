@@ -1,0 +1,208 @@
+.table-pane
+{
+    min-height: 100vh;
+    height: 100%!important;
+    padding: 0;
+    background: #212229;
+    color: white;
+    margin-top: 2px;
+}
+
+
+.side-user-list
+{
+    position: fixed;
+    z-index: 1; 
+    overflow-x: hidden;
+    padding-top: 20px;
+    padding: 8px;
+    font-size: 18px;
+   
+}
+
+.table-flex
+{
+    display: block;
+    width: 100%;
+}
+
+.table-item
+{
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    align-items: center;
+}
+
+.table-item div{
+    padding: 3px 5px;
+}
+
+.username{
+    width: 100%;
+}
+
+.username button
+{
+    text-decoration: none!important;
+    color: white!important;
+    width: 100%;
+    text-align: left;   
+}
+
+.username button:hover
+{
+    color: gainsboro!important;
+}
+
+.elo-display
+{
+    display: flex;
+    align-items: center;
+}
+
+.tabs-header
+{
+    background-color: #32333d;
+    border: none!important;
+}
+
+.active-link
+{
+    border-radius: 0px;
+    background: #212229!important;
+    color: white!important;
+    border: 0px;
+}
+
+
+
+.tabs-header a
+{
+    background: #212242;
+    color: white;
+    border-radius: 0px!important;
+    border-color: transparent!important;
+}
+
+.profile-header
+{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    width: 100%;
+}
+
+.btn-close
+{
+    position: absolute;
+    top: 0px;
+    right: 10px;
+    opacity: 1;
+    color: white!important;
+}
+
+.card {
+    background-color: #28292e!important;
+    border-bottom: 1px solid white !important;
+    color: white;
+    border-radius: 0px!important;
+    padding: 20px 10px 20px 10px;
+}
+
+.top-container {
+    display: flex;
+    align-items: center
+}
+
+.profile-image {
+    border-radius: 10px;
+    border: 2px solid #5957f9
+}
+
+.name {
+    font-size: 25px;
+    font-weight: bold;
+    color: white;
+    position: relative;
+    top: 8px
+}
+
+.mail {
+    font-size: 17px;
+    color: grey;
+    position: relative;
+    top: 2px
+}
+
+.middle-container {
+    background-color: #1a1b20!important;
+    border-radius: 12px;
+    border: 1px solid white;
+}
+
+.middle-container:hover {
+    border: 1px solid #5957f9
+}
+
+.dollar-div {
+    background-color: #1a1b20;
+    padding: 12px;
+    border-radius: 10px
+}
+
+.round-div {
+    border-radius: 50%;
+    width: 35px;
+    height: 35px;
+    background-color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center
+}
+
+.dollar {
+    font-size: 16px !important;
+    color: white !important;
+    font-weight: bold !important
+}
+
+.current-balance {
+    font-size: 15px;
+    background-color: #1a1b20!important;
+    font-weight: bold
+}
+
+.amount {
+    color: yellow;
+    font-size: 16px;
+    font-weight: bold
+}
+
+.dollar-sign {
+    font-size: 16px;
+    color: #272727;
+    font-weight: bold
+}
+
+.recent-border {
+    border-left: 2px solid #5957f9;
+    display: flex;
+    align-items: center
+}
+
+.recent-border:hover {
+    border-bottom: 1px solid #dee2e6 !important
+}
+
+.bottom-container
+{
+    display: flex;
+    justify-content: space-evenly;
+    margin-top: 25px;
+}
+.bottom-container button{
+    width: 100%;
+    margin: 0px 5px 0px 5px;
+}
