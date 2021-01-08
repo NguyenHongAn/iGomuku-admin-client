@@ -1,13 +1,18 @@
 import React from 'react'
 import { CCard, CCardBody, CCardHeader, CCol, CRow } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
+import axiosInstance from '../../api';
+import { useSelector, useDispatch } from 'react-redux';
+import { useToasts } from "react-toast-notifications";
+import ReduxAction from "../../store/actions";
+import { Confirm } from 'react-st-modal';
 
-import usersData from './UsersData'
 
 const User = ({match}) => {
-  const user = usersData.find( user => user.id.toString() === match.params.id)
+  const usersList = useSelector(state => state.admin.usersList)
+  const user = usersList.find( user => user._id.toString() === match.params.id)
   const userDetails = user ? Object.entries(user) : 
-    [['id', (<span><CIcon className="text-muted" name="cui-icon-ban" /> Not found</span>)]]
+    [['id', (<span><CIcon className="text-muted" name="cui-icon-ban" /> User Not found</span>)]]
 
   return (
     <CRow>

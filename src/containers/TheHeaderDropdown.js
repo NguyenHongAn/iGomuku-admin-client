@@ -64,27 +64,21 @@ const TheHeaderDropdown = ({ callbackLogout }) => {
         <CDropdownItem header tag="div" color="light" className="text-center">
           <strong>Settings</strong>
         </CDropdownItem>
-        <CDropdownItem>
+        <CDropdownItem style = {{color: '#cacaca'}}>
           <CIcon name="cil-user" className="mfe-2" />
           Profile
         </CDropdownItem>
-        <CDropdownItem>
+        <CDropdownItem style = {{color: '#cacaca'}}>
           <CIcon name="cil-settings" className="mfe-2" />
           Settings
         </CDropdownItem>
-        <CDropdownItem>
+        <CDropdownItem style = {{color: '#cacaca'}}>
           <CIcon name="cil-credit-card" className="mfe-2" />
           Payments
-          <CBadge color="secondary" className="mfs-auto">
-            42
-          </CBadge>
         </CDropdownItem>
-        <CDropdownItem>
+        <CDropdownItem style = {{color: '#cacaca'}}>
           <CIcon name="cil-file" className="mfe-2" />
           Projects
-          <CBadge color="primary" className="mfs-auto">
-            42
-          </CBadge>
         </CDropdownItem>
         <CDropdownItem divider />
         <CDropdownItem to="/login" onClick={() => callbackLogout()}>
