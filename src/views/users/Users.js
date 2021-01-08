@@ -10,20 +10,49 @@ import {
   CRow,
   CPagination
 } from '@coreui/react'
+import axiosInstance from '../../api';
+import { useSelector, useDispatch } from 'react-redux';
+import { useToasts } from "react-toast-notifications";
+import ReduxAction from "../../store/actions";
 
-import usersData from './UsersData'
+//import usersData from './UsersData'
 
-const getBadge = status => {
-  switch (status) {
-    case 'Active': return 'success'
-    case 'Inactive': return 'secondary'
-    case 'Pending': return 'warning'
-    case 'Banned': return 'danger'
+const getBadge = accountStatus => {
+  switch (accountStatus) {  // 'success' , 'secondary' , 'warning', 'danger' , 'primary'
+    case -1: return 'warning'
+    case 0: return 'success'
+    case 1: return 'danger'
     default: return 'primary'
   }
 }
 
-const Users = () => {
+const getStatusName = accountStatus => {
+  switch (accountStatus) {
+    case -1: return 'Unverified'
+    case 0: return 'Active'
+    case 1: return 'Blocked'
+    default: return 'unkown'
+  }
+}
+
+function parseDateTime(dateSting) {
+  let seperator = "/";
+  let date = new Date( Date.parse(dateSting) );
+  return [("0" + date.getDate()).slice(-2), ("0" + (date.getMonth() + 1)).slice(-2), date.getFullYear()].join(seperator) + ' ' + [("0" + date.getHours()).slice(-2), ("0" + date.getMinutes()).slice(-2)].join(':');
+};
+
+const Users = () => {    
+  //redux
+  const { jwtToken, fullname, userID, autoMatch } = useSelector(state => ({
+    jwtToken: state.auth.jwtToken,
+    fullname: state.auth.fullname,
+    userID: state.auth.userID,
+    autoMatch: state.auth.autoMatch,
+  }));
+  const usersList = useSelector(state => state.admin.usersList)
+  const { addToast } = useToasts();
+  const dispatch = useDispatch();
+
   const history = useHistory()
   const queryPage = useLocation().search.match(/page=([0-9]+)/, '')
   const currentPage = Number(queryPage && queryPage[1] ? queryPage[1] : 1)
@@ -37,34 +66,68 @@ const Users = () => {
     currentPage !== page && setPage(currentPage)
   }, [currentPage, page])
 
+  useEffect(()=>{
+      (async () =>{      
+          // get users list with GET method
+          if(userID !== "0")
+          {        
+              try {
+                  const response = await axiosInstance.get(`/admin/list-user`,{
+                      params: {
+                          userId: userID
+                      }
+                    });
+                  if (response.status === 200)
+                  {
+                    dispatch(ReduxAction.admin.updateUsersList(response.data));
+                  } 
+                  
+              } catch (error) {
+                  console.log(error);
+                  addToast(error.response.data.message, {
+                      appearance: "error",
+                      autoDismiss: true,
+                    });
+              }
+          }
+        
+      })();
+  },[addToast, dispatch, jwtToken, userID]);
+
   return (
     <CRow>
       <CCol xl={6}>
         <CCard style={{minWidth: "80vw"}}>
           <CCardHeader>
             Users
-            <small className="text-muted"> example</small>
+            <small className="text-muted"> iGomoku</small>
           </CCardHeader>
           <CCardBody>
           <CDataTable
-            items={usersData}
-            fields={[
-              { key: 'name', _classes: 'font-weight-bold' },
-              'registered', 'role', 'status'
+            items={usersList}
+            fields={['_id',
+              { key: 'fullname', _classes: 'font-weight-bold' },
+              'username','createdDate', 'accountStatus'
             ]}
             hover
             striped
-            itemsPerPage={5}
+            itemsPerPage={10}
             activePage={page}
             clickableRows
-            onRowClick={(item) => history.push(`/users/${item.id}`)}
+            onRowClick={(item) => history.push(`/users/${item._id}`)}
             scopedSlots = {{
-              'status':
+              'accountStatus':
                 (item)=>(
                   <td>
-                    <CBadge color={getBadge(item.status)}>
-                      {item.status}
+                    <CBadge color={getBadge(item.accountStatus)}>
+                      {getStatusName(item.accountStatus)}
                     </CBadge>
+                  </td>
+                ),
+                'createdDate':
+                (item)=>(
+                  <td>
+                    {parseDateTime(item.createdDate)}
                   </td>
                 )
             }}
@@ -72,7 +135,7 @@ const Users = () => {
           <CPagination
             activePage={page}
             onActivePageChange={pageChange}
-            pages={5}
+            pages={(usersList.length/10)+1}
             doubleArrows={false} 
             align="center"
           />
