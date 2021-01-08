@@ -35,7 +35,7 @@ import styles from "../../assets/jss/material-kit-react/views/profilePage.js";
 
 const useStyles = makeStyles(styles);
 
-export default function ProfilePage(props) {
+export default function User({match}) {
   const classes = useStyles();
   const imageClasses = classNames(
     classes.imgRaised,
@@ -45,11 +45,10 @@ export default function ProfilePage(props) {
 
 
   // redux
-  const { userId } = useSelector(state => ({
-    jwtToken: state.auth.jwtToken,
-    fullname: state.auth.fullname,
-    userId: state.auth.userID
-  }));
+  const userId = match.params.id;
+  // const { userId } = useSelector(state => ({
+  //   userId: state.auth.userID
+  // }));
 
   const [basicInfo, setBasicInfo] = useState({});
 
@@ -57,7 +56,7 @@ export default function ProfilePage(props) {
   useEffect(() => {
     async function fetchData() {
       try {
-        const response = await axiosInstance.get("/auth/profile/", {
+        const response = await axiosInstance.get("/admin/user-profile/", {
           params: {
             userId: userId
           }
