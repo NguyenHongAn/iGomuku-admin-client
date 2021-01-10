@@ -246,7 +246,7 @@ const Users = () => {
           <CPagination
             activePage={page}
             onActivePageChange={pageChange}
-            pages={(usersList.length/10)+1}
+            pages={Math.floor(usersList.length/10)+1}
             doubleArrows={false} 
             align="center"
           />
