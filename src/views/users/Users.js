@@ -24,6 +24,7 @@ const getBadge = accountStatus => {
     case -1: return 'warning'
     case 0: return 'success'
     case 1: return 'danger'
+    case 2: return 'danger'
     default: return 'primary'
   }
 }
@@ -32,7 +33,8 @@ const getStatusName = accountStatus => {
   switch (accountStatus) {
     case -1: return 'Unverified'
     case 0: return 'Active'
-    case 1: return 'Blocked'
+    case 1: return 'Blocked-Unverified'
+    case 2: return 'Blocked-Verified'
     default: return 'unkown'
   }
 }
@@ -64,17 +66,18 @@ const Users = () => {
     currentPage !== newPage && history.push(`/users?page=${newPage}`)
   }
 
-  const handleBlockUser = (UserID) => {
+  const handleBlockUser = (UserID, accountStatus) => {
+    const newAccountStatus = (accountStatus === -1 ? 1 : 2); 
     axiosInstance
     .post(`/admin/set-user-status`, {
         adminId: userID,
         userId: UserID,
-        status: 1,
+        status: newAccountStatus,
       })
       .then(function (response) {
         if (response.status === 200) {
           //TODO: cập nhật account status sau khi block
-          dispatch(ReduxAction.admin.updateUserAccountStatus({userID: UserID, status: 1}));
+          dispatch(ReduxAction.admin.updateUserAccountStatus({userID: UserID, status: newAccountStatus}));
         }
       })
       .catch(function (error) {
@@ -86,16 +89,17 @@ const Users = () => {
       });
   }
 
-  const handleUnBlockUser = (UserID) => {
+  const handleUnBlockUser = (UserID, accountStatus) => {
+    const newAccountStatus = (accountStatus === 1 ? -1 : 0); 
     axiosInstance
     .post(`/admin/set-user-status`, {
         adminId: userID,
         userId: UserID,
-        status: 0,
+        status: newAccountStatus,
       })
       .then(function (response) {
         if (response.status === 200) {
-          dispatch(ReduxAction.admin.updateUserAccountStatus({userID: UserID, status: 0}));
+          dispatch(ReduxAction.admin.updateUserAccountStatus({userID: UserID, status: newAccountStatus}));
         }
       })
       .catch(function (error) {
@@ -197,7 +201,7 @@ const Users = () => {
                         >
                           Profile
                         </CButton>
-                        {item.accountStatus !== 1 ? 
+                        {(item.accountStatus !== 1 && item.accountStatus !== 2)? 
                           (<CButton
                             style={{marginLeft: "10px", minWidth: "4.0625rem"}}
                             color="danger"
@@ -209,7 +213,7 @@ const Users = () => {
                                 "Block user"
                               );
                               if (confirm) {
-                                handleBlockUser(item._id);
+                                handleBlockUser(item._id, item.accountStatus);
                               }
                             }}
                           >
@@ -227,7 +231,7 @@ const Users = () => {
                                 "Block user"
                               );
                               if (confirm) {
-                                handleUnBlockUser(item._id);
+                                handleUnBlockUser(item._id, item.accountStatus);
                               }
                             }}
                           >
