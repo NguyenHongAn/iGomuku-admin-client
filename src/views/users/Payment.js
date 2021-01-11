@@ -1,9 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from 'react-redux';
-import axios from "axios";
 import { useToasts } from "react-toast-notifications";
-import { useHistory } from "react-router-dom";
-import ReduxAction from '../../store/actions';
 // nodejs library that concatenates classes
 import classNames from "classnames";
 // @material-ui/core components
@@ -18,7 +15,6 @@ import MuiListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import Avatar from '@material-ui/core/Avatar';
-import UnFriendIcon from '@material-ui/icons/BackspaceOutlined';
 import axiosInstance from '../../api';
 
 
@@ -35,7 +31,7 @@ import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import profile from "../../assets/img/avt-theanh.jpg";
 import styles from "../../assets/jss/material-kit-react/views/profilePage.js";
 
-const APIURL = process.env.REACT_APP_ENV === "dev" ? process.env.REACT_APP_APIURL : process.env.REACT_APP_API_DEPLOY_URL;
+import {useHistory} from 'react-router-dom';
 
 const useStyles = makeStyles(styles);
 
@@ -56,23 +52,6 @@ const ListItem = withStyles({
     }
 })(MuiListItem);
 
-const UnFriend = withStyles({
-    root: {
-        "&$selected": {
-            backgroundColor: "white",
-            color: "red"
-        },
-        "&$selected:hover": {
-            backgroundColor: "red",
-            color: "red"
-        },
-        "&:hover": {
-            backgroundColor: "white",
-            color: "red"
-        }
-    }
-})(UnFriendIcon);
-
 export default function ProfilePage(props) {
     const { addToast } = useToasts();
     const classes = useStyles();
@@ -83,9 +62,8 @@ export default function ProfilePage(props) {
     );
 
     //use History để điều hướng URL
-    const history = useHistory();
     const dispatch = useDispatch();
-
+    const history = useHistory();
 
     const [cardAnimaton, setCardAnimation] = React.useState("cardHidden");
     const [listPayment, setListPayment] = useState([]);
@@ -112,6 +90,10 @@ export default function ProfilePage(props) {
 
                 } catch (error) {
                     console.log(error);
+                    if(error.response.status === 401)
+                    {
+                    history.push("/auth/signin");
+                    }
                     addToast(error.response.data.message, {
                         appearance: "error",
                         autoDismiss: true,
@@ -120,7 +102,7 @@ export default function ProfilePage(props) {
             }
 
         })();
-    }, [addToast, dispatch, jwtToken, userID]);
+    }, [addToast, dispatch, history, jwtToken, userID]);
 
 
     const payments = listPayment.map((item, index) => (

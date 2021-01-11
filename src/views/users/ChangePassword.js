@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useSelector } from 'react-redux';
-import axios from "axios";
+import axiosInstance from '../../api';
 import { useToasts } from "react-toast-notifications";
 // nodejs library that concatenates classes
 // @material-ui/core components
@@ -25,7 +25,6 @@ import CustomInput from "../../components/CustomInput/CustomInput.js";
 // utils
 import AuthUtils from "../../utils/AuthUtils.js";
 import styles from "../../assets/jss/material-kit-react/views/profilePage.js";
-const APIURL = process.env.REACT_APP_ENV === "dev" ? process.env.REACT_APP_APIURL : process.env.REACT_APP_DEPLOY_APIURL;
 const useStyles = makeStyles(styles);
 
 export default function ProfilePage(props) {
@@ -79,8 +78,8 @@ export default function ProfilePage(props) {
             return;
         }
 
-        axios
-            .post(APIURL + "/auth/change-password", {
+        axiosInstance
+            .post("/auth/change-password", {
                 userId: userId,
                 password: password,
                 newPassword: newPassword

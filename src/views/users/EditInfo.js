@@ -20,8 +20,7 @@ import CardFooter from "../../components/Card/CardFooter.js";
 import CustomInput from "../../components/CustomInput/CustomInput.js";
 import styles from "../../assets/jss/material-kit-react/views/profilePage.js";
 import ReduxAction from '../../store/actions';
-
-const APIURL = process.env.REACT_APP_ENV === "dev" ? process.env.REACT_APP_APIURL : process.env.REACT_APP_DEPLOY_APIURL;
+import {useHistory} from 'react-router-dom';
 
 const useStyles = makeStyles(styles);
 
@@ -31,7 +30,7 @@ export default function ProfilePage(props) {
     const { addToast } = useToasts();
     const classes = useStyles();
     const [cardAnimaton, setCardAnimation] = React.useState("cardHidden");
-
+    const history = useHistory();
     const { userId, jwtToken, fullname, autoMatch } = useSelector(state => ({
         jwtToken: state.auth.jwtToken,
         fullname: state.auth.fullname,

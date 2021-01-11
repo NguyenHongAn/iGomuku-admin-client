@@ -33,8 +33,8 @@ const getStatusName = accountStatus => {
   switch (accountStatus) {
     case -1: return 'Unverified'
     case 0: return 'Active'
-    case 1: return 'Blocked-Unverified'
-    case 2: return 'Blocked-Verified'
+    case 1: return 'Blocked'
+    case 2: return 'Blocked'
     default: return 'unkown'
   }
 }

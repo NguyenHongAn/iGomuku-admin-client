@@ -110,6 +110,10 @@ export default function ProfilePage(props) {
 
                 } catch (error) {
                     console.log(error);
+                    if (error.response.status === 401)
+                    {
+                        history.push("/auth/signin");
+                    }
                     addToast(error.response.data.message, {
                         appearance: "error",
                         autoDismiss: true,
@@ -118,12 +122,12 @@ export default function ProfilePage(props) {
             }
 
         })();
-    }, [addToast, dispatch, jwtToken, userID]);
+    }, [addToast, dispatch, history, jwtToken, userID]);
 
     const onListFriendClick = function (e, index) {
         e.preventDefault();
 
-        if (!window.confirm('Are you sure you wish to unfriend?')) {
+        if (!window.confirm('Are you sure to unfriend this user?')) {
             return;
         }
 
