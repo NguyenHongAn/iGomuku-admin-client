@@ -100,9 +100,10 @@ export default function User({match}) {
 
   // redux
   const curUserId = match.params.id;
-  const { adminId, viewingAccountStatus } = useSelector(state => ({
+  const { adminId, viewingAccountStatus, viewingUserID } = useSelector(state => ({
     adminId: state.auth.userID,
-    viewingAccountStatus: state.admin.viewingAccountStatus
+    viewingAccountStatus: state.admin.viewingAccountStatus,
+    viewingUserID: state.admin.viewingUserID
   }));
 
   const history = useHistory();
@@ -168,6 +169,7 @@ export default function User({match}) {
         if (response.status === 200) {
           setBasicInfo(response.data);
           dispatch(ReduxAction.admin.updateViewingAccountStatus(response.data.accountStatus));
+          dispatch(ReduxAction.admin.updateViewingUserID(response.data._id));
         }
       } catch (error) {
         console.log(error);
@@ -194,10 +196,10 @@ export default function User({match}) {
                     <div>
                     {(viewingAccountStatus !== 1 && viewingAccountStatus !== 2)? 
                           (<CButton
-                            style={{marginLeft: "10px", minWidth: "4.0625rem"}}
+                            style={{minWidth: "4.0625rem"}}
                             color="danger"
                             variant="outline"
-                            size="sm"
+                            size="lg"
                             onClick={async () => {
                               const confirm = await Confirm(
                                 `Are you sure to BLOCK the user: ${basicInfo.fullname}?`,
@@ -212,10 +214,10 @@ export default function User({match}) {
                           </CButton>)
                           :
                           (<CButton
-                            style={{marginLeft: "10px", minWidth: "4.0625rem"}}
+                            style={{minWidth: "4.0625rem"}}
                             color="success"
                             variant="outline"
-                            size="sm"
+                            size="lg"
                             onClick={async () => {
                               const confirm = await Confirm(
                                 `Are you sure to UNBLOCK the user: ${basicInfo.fullname}?`,
@@ -233,18 +235,18 @@ export default function User({match}) {
                     <div style={{ textAlign: "left" }}>
                       <List>
                         <Tooltip title="Username" placement="left">
-                          <ListItem button>
+                          <ListItem >
                             <ListItemIcon>
                               <AccountBox></AccountBox>
                             </ListItemIcon>
-                            <ListItemText primary={basicInfo.username} />
+                            <ListItemText primary={basicInfo.username + ` (ID: ${viewingUserID})`} />
                     <CBadge color={getBadge(viewingAccountStatus)}>
                       {getStatusName(viewingAccountStatus)}
                     </CBadge>
                           </ListItem>
                         </Tooltip>
                         <Tooltip title="Email" placement="left">
-                          <ListItem button>
+                          <ListItem >
                             <ListItemIcon>
                               <Email></Email>
                             </ListItemIcon>

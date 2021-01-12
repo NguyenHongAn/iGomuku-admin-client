@@ -44,6 +44,15 @@ const updateViewingAccountStatus = (payload) =>{ // dùng cho trang profile, c�
     };
 } 
 
+const updateViewingUserID = (payload) =>{ // dùng cho trang profile, cập nhật userID đang được xem
+    return (dispatch) =>{
+        dispatch({
+            type: 'viewingUserID/update',
+            payload: payload,
+        })
+    };
+} 
+
 // const addNewUserOnline = (user) =>{
 //     return (dispatch)=>{
 //         dispatch({
@@ -57,6 +66,7 @@ export const adminActions = {
     updateUsersList,
     updateUserAccountStatus,
     updateViewingAccountStatus,
+    updateViewingUserID,
     // addNewFriend,
     // updateFriendList,
     // addNewUserOnline,

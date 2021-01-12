@@ -88,20 +88,20 @@ export default function ProfilePage(props) {
     const [cardAnimaton, setCardAnimation] = React.useState("cardHidden");
     const [listHistory, setListHistory] = useState([]);
 
-    const { userID, jwtToken } = useSelector(state => ({
-        userID: state.auth.userID,
-        jwtToken: state.auth.jwtToken
+    const { adminId, viewingUserID } = useSelector(state => ({
+        adminId: state.auth.userID,
+        viewingUserID: state.admin.viewingUserID
     }));
 
 
     // get history list with GET method
     useEffect(() => {
         (async () => {
-            if (userID !== "0") {
+            if (viewingUserID !== "0") {
                 try {
-                    const response = await axiosInstance.get(`/user/list-history`, {
+                    const response = await axiosInstance.get(`/admin/list-history`, {
                         params: {
-                            userId: userID
+                            userId: viewingUserID
                         }
                     });
                     if (response.status === 200) {
@@ -122,7 +122,7 @@ export default function ProfilePage(props) {
             }
 
         })();
-    }, [addToast, dispatch, history, jwtToken, userID]);
+    }, [addToast, dispatch, history, viewingUserID]);
 
     const onDetailHistoryGame = function (e, index) {
         history.push({
@@ -132,7 +132,7 @@ export default function ProfilePage(props) {
 
 
     const histories = listHistory.map((item, index) => (
-        <ListItem key={item._id} style={{ border: "1px solid black", marginTop: '1px' }}>
+        <ListItem key={item._id}>
             <ListItemAvatar>
                 <Avatar>
                     <div>
@@ -142,11 +142,11 @@ export default function ProfilePage(props) {
             </ListItemAvatar>
             <ListItemText
                 disableTypography
-                primary={<Typography type="body2" style={{ color: item.result === 1 ? 'blue' : 'red', fontWeight: 'bold' }}>{item.result === 1 ? "Chiến thắng" : "Thất bại"}</Typography>}
+                primary={<Typography type="body2" style={{ color: item.result === 1 ? 'blue' : 'red', fontWeight: 'bold' }}>{item.result === 1 ? "Victory" : "Lose"}</Typography>}
                 secondary={
                     <React.Fragment>
-                        <Typography type="body2" style={{ color: 'black' }}>{"Đối thủ: " + item.enemy_fullname} </Typography>
-                        Thời gian: {item.time}
+                        <Typography type="body2" style={{ color: 'black' }}>{"Enemy: " + item.enemy_fullname} </Typography>
+                        Time: {item.time}
                     </React.Fragment>
                 }
             />
@@ -164,7 +164,7 @@ export default function ProfilePage(props) {
                         <form className={classes.form}>
                             <CardHeader color="info" className={classes.cardHeader}>
                                 <h4>History Match</h4>
-                                <div className={classes.socialLine}>
+                                {/* <div className={classes.socialLine}>
                                     <Button
                                         justIcon
                                         href="#pablo"
@@ -192,7 +192,7 @@ export default function ProfilePage(props) {
                                     >
                                         <InstagramIcon />
                                     </Button>
-                                </div>
+                                </div> */}
                             </CardHeader>
                             <CardBody>
                                 <List className={classes.root} style={{ maxHeight: '383px', overflow: 'auto' }}>

@@ -88,20 +88,20 @@ export default function ProfilePage(props) {
     const [cardAnimaton, setCardAnimation] = React.useState("cardHidden");
     const [listFriend, setListFriend] = useState([]);
 
-    const { userID, jwtToken } = useSelector(state => ({
-        userID: state.auth.userID,
-        jwtToken: state.auth.jwtToken
+    const { adminId, viewingUserID } = useSelector(state => ({
+        adminId: state.auth.userID,
+        viewingUserID: state.admin.viewingUserID
     }));
 
 
     // get friend's list with GET method
     useEffect(() => {
         (async () => {
-            if (userID !== "0") {
+            if (viewingUserID !== "0") {
                 try {
-                    const response = await axiosInstance.get(`/user/list-friend`, {
+                    const response = await axiosInstance.get(`/admin/list-friend`, {
                         params: {
-                            userId: userID
+                            userId: viewingUserID
                         }
                     });
                     if (response.status === 200) {
@@ -122,43 +122,43 @@ export default function ProfilePage(props) {
             }
 
         })();
-    }, [addToast, dispatch, history, jwtToken, userID]);
+    }, [addToast, dispatch, history, viewingUserID]);
 
-    const onListFriendClick = function (e, index) {
-        e.preventDefault();
+    // const onListFriendClick = function (e, index) {
+    //     e.preventDefault();
 
-        if (!window.confirm('Are you sure to unfriend this user?')) {
-            return;
-        }
+    //     if (!window.confirm('Are you sure to unfriend this user?')) {
+    //         return;
+    //     }
 
-        axiosInstance
-            .post("/user/unfriend", {
-                userId: userID,
-                playerId: listFriend[index]._id
-            })
-            .then(function (response) {
-                if (response.status === 200) {
-                    addToast("Unfriend successfully !", {
-                        appearance: "success",
-                        autoDismiss: true,
-                    });
+    //     axiosInstance
+    //         .post("/user/unfriend", {
+    //             userId: userID,
+    //             playerId: listFriend[index]._id
+    //         })
+    //         .then(function (response) {
+    //             if (response.status === 200) {
+    //                 addToast("Unfriend successfully !", {
+    //                     appearance: "success",
+    //                     autoDismiss: true,
+    //                 });
 
-                    setTimeout(() => {
-                        window.location.reload();
-                    }, 1000);
-                }
-            })
-            .catch(function (error) {
-                console.log(error);
-                addToast(error.response.data.message, {
-                    appearance: "error",
-                    autoDismiss: true,
-                });
-            });
-    };
+    //                 setTimeout(() => {
+    //                     window.location.reload();
+    //                 }, 1000);
+    //             }
+    //         })
+    //         .catch(function (error) {
+    //             console.log(error);
+    //             addToast(error.response.data.message, {
+    //                 appearance: "error",
+    //                 autoDismiss: true,
+    //             });
+    //         });
+    // };
 
     const list_friend = listFriend.map((item, index) => (
-        <ListItem key={item._id} style={{ border: "1px solid black", marginTop: '1px' }}>
+        <ListItem key={item._id}>
             <ListItemAvatar>
                 <Avatar>
                     <div>
@@ -167,9 +167,9 @@ export default function ProfilePage(props) {
                 </Avatar>
             </ListItemAvatar>
             <ListItemText primary={item.fullname} secondary={'Elo: ' + item.elo} />
-            <ListItemSecondaryAction>
+            {/* <ListItemSecondaryAction>
                 <UnFriend fontSize='default' onClick={(e) => onListFriendClick(e, index)} />
-            </ListItemSecondaryAction>
+            </ListItemSecondaryAction> */}
         </ListItem>
     ));
 
@@ -181,7 +181,7 @@ export default function ProfilePage(props) {
                         <form className={classes.form} method="POST" action={APIURL + '/auth/edit-info'}>
                             <CardHeader color="info" className={classes.cardHeader}>
                                 <h4>List Friend</h4>
-                                <div className={classes.socialLine}>
+                                {/* <div className={classes.socialLine}>
                                     <Button
                                         justIcon
                                         href="#pablo"
@@ -209,7 +209,7 @@ export default function ProfilePage(props) {
                                     >
                                         <InstagramIcon />
                                     </Button>
-                                </div>
+                                </div> */}
                             </CardHeader>
                             <CardBody>
                                 <List className={classes.root} style={{ maxHeight: '383px', overflow: 'auto' }}>

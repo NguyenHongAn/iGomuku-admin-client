@@ -1,6 +1,7 @@
 
 const defaultState  = {
     viewingAccountStatus: -2,
+    viewingUserID: "123abc",
     usersList: [],
     //friends: [],
 };
@@ -35,6 +36,13 @@ const adminReducer = (state = defaultState, action) =>{
                 return {
                     ...state,
                     viewingAccountStatus: action.payload,
+                }
+            }
+        case 'viewingUserID/update':
+            {
+                return {
+                    ...state,
+                    viewingUserID: action.payload,
                 }
             }
         // case "onlineUser/addnew":
