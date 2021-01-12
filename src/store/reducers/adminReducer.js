@@ -1,5 +1,6 @@
 
 const defaultState  = {
+    viewingAccountStatus: -2,
     usersList: [],
     //friends: [],
 };
@@ -27,6 +28,13 @@ const adminReducer = (state = defaultState, action) =>{
                 return{
                     ...state,
                     usersList: newList,
+                }
+            }
+        case 'viewingAccountStatus/update':
+            {
+                return {
+                    ...state,
+                    viewingAccountStatus: action.payload,
                 }
             }
         // case "onlineUser/addnew":
