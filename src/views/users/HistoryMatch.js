@@ -145,7 +145,7 @@ export default function ProfilePage(props) {
                 primary={<Typography type="body2" style={{ color: item.result === 1 ? 'blue' : 'red', fontWeight: 'bold' }}>{item.result === 1 ? "Victory" : "Lose"}</Typography>}
                 secondary={
                     <React.Fragment>
-                        <Typography type="body2" style={{ color: 'black' }}>{"Enemy: " + item.enemy_fullname} </Typography>
+                        <Typography type="body2" style={{ color: 'black' }}>{"Rival: " + item.enemy_fullname} </Typography>
                         Time: {item.time}
                     </React.Fragment>
                 }

@@ -68,7 +68,8 @@ const CustomListItem = withStyles({
 
 const useStyles = makeStyles(styles);
 
-export default function DetailHistoryGame(props) {
+export default function DetailHistoryGame({match}) {
+    const curGameId = match.params.id;
     const params = useParams();
     const classes = useStyles();
     const imageClasses = classNames(
@@ -80,10 +81,10 @@ export default function DetailHistoryGame(props) {
     const history = useHistory();
 
     // redux
-    const { userId } = useSelector(state => ({
-        jwtToken: state.auth.jwtToken,
-        fullname: state.auth.fullname,
-        userId: state.auth.userID
+    const { adminId, viewingAccountStatus, viewingUserID } = useSelector(state => ({
+        adminId: state.auth.userID,
+        viewingAccountStatus: state.admin.viewingAccountStatus,
+        viewingUserID: state.admin.viewingUserID
     }));
 
     const [data, setData] = useState({});
@@ -98,9 +99,10 @@ export default function DetailHistoryGame(props) {
     useEffect(() => {
         async function fetchData() {
             try {
-                const response = await axiosInstance.get("/user/history/", {
+                const response = await axiosInstance.get("/admin/history/", {
                     params: {
-                        historyID: params.gameID
+                        historyID: curGameId,
+                        userID: viewingUserID
                     }
                 });
                 if (response.status === 200) {
@@ -116,7 +118,7 @@ export default function DetailHistoryGame(props) {
         }
 
         fetchData();
-    }, [history, params.gameID]);
+    }, [history, curGameId]);
 
     const listMessage = data.chats;
     var messages = null;
