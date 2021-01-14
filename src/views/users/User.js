@@ -9,6 +9,7 @@ import Payment from "@material-ui/icons/Payment";
 import HistoryMatch from "@material-ui/icons/History";
 import Friend from "@material-ui/icons/PeopleAlt";
 import {
+  Grade,
   AccountBox,
   Email,
   Today,
@@ -108,6 +109,7 @@ export default function User({match}) {
 
   const history = useHistory();
   const [basicInfo, setBasicInfo] = useState({});
+  const [winrate, setWinrate] = useState(0);
   const dispatch = useDispatch();
 
   const handleBlockUser = (UserID, viewingAccountStatus) => {
@@ -168,6 +170,7 @@ export default function User({match}) {
         });
         if (response.status === 200) {
           setBasicInfo(response.data);
+          setWinrate(response.data.winrate);
           dispatch(ReduxAction.admin.updateViewingAccountStatus(response.data.accountStatus));
           dispatch(ReduxAction.admin.updateViewingUserID(response.data._id));
         }
@@ -277,10 +280,18 @@ export default function User({match}) {
                             <ListItemText primary={basicInfo.xu} />
                           </ListItem>
                         </Tooltip>
+                        <Tooltip title="Winrate" placement="left">
+                          <ListItem button>
+                            <ListItemIcon>
+                            <StarHalf></StarHalf>
+                            </ListItemIcon>
+                            <ListItemText primary={winrate + " %"} />
+                          </ListItem>
+                        </Tooltip>
                         <Tooltip title="Elo" placement="left">
                           <ListItem button>
                             <ListItemIcon>
-                              <StarHalf></StarHalf>
+                              <Grade></Grade>
                             </ListItemIcon>
                             <ListItemText primary={basicInfo.elo} />
                           </ListItem>

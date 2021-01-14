@@ -7,6 +7,25 @@ import classNames from "classnames";
 import { makeStyles, withStyles } from "@material-ui/core/styles";
 import { Typography } from '@material-ui/core';
 // @material-ui/icons
+import {
+    Grade,
+    AssignmentInd,
+    AccountBox,
+    Email,
+    Today,
+    Subscriptions,
+    StarHalf,
+    VerifiedUser,
+    Warning,
+  } from "@material-ui/icons";
+import {
+    faTrophy,
+    faTimes,
+    faCoins,
+    faStar,
+} from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import ListItemIcon from "@material-ui/core/ListItemIcon";
 
 import FacebookIcon from '@material-ui/icons/Facebook';
 import InstagramIcon from '@material-ui/icons/Instagram';
@@ -14,11 +33,12 @@ import TwitterIcon from '@material-ui/icons/Twitter';
 
 // core components
 import Footer from "../../components/Footer/Footer.js";
-import Button from "../../components/CustomButtons/Button.js";
+import {Button} from 'react-bootstrap';
+// import Button from "../../components/CustomButtons/Button.js";
 import GridContainer from "../../components/Grid/GridContainer.js";
 import GridItem from "../../components/Grid/GridItem.js";
 import Parallax from "../../components/Parallax/Parallax.js";
-import profile from "../../assets/img/battle_logo.png";
+import logoIGomoku from "../../assets/img/logo-igomoku.png";
 import axiosInstance from '../../api';
 import BoardShow from './BoardShow';
 
@@ -31,6 +51,7 @@ import CardFooter from "../../components/Card/CardFooter.js";
 import List from '@material-ui/core/List';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListItem from '@material-ui/core/ListItem';
+import Tooltip from "@material-ui/core/Tooltip";
 
 
 
@@ -163,29 +184,18 @@ export default function DetailHistoryGame({match}) {
 
     return (
         <div>
-            <Parallax small filter />
-            <div className={classNames(classes.main, classes.mainRaised)}>
+            {/* <Parallax small filter />
+            <div className={classNames(classes.main, classes.mainRaised)}> */}
+            <div>
                 <div>
-                    <div className={classes.container}>
+                    <div className={classes.containerLarge}>
                         <GridContainer justify="center">
-                            <GridItem xs={12} sm={12} md={6}>
-                                <div className={classes.profile}>
-                                    <div>
-                                        <img src={profile} alt="..." className={imageClasses} />
-                                    </div>
-                                    <div className={classes.name}>
-                                        <h3 className={classes.title}>CHI TIẾT LỊCH SỬ TRẬN ĐẤU</h3>
-                                        <h6>------oOo------</h6>
-                                        <Button justIcon link className={classes.margin5}>
-                                            <TwitterIcon />
-                                        </Button>
-                                        <Button justIcon link className={classes.margin5}>
-                                            <InstagramIcon />
-                                        </Button>
-                                        <Button justIcon link className={classes.margin5}>
-                                            <FacebookIcon />
-                                        </Button>
-                                    </div>
+                            <GridItem xs={12} sm={12} md={0}>
+                                <div className={classes.profile} style={{height:"50px"}}>
+                                {/* <img src={logoIGomoku} className="img-fluid profile-image" style={{maxWidth:"400px"}} /> */}
+                                    {/* <div className={classes.name}>
+                                        <h3 className={classes.title}>Match History</h3>
+                                    </div> */}
                                 </div>
                             </GridItem>
                         </GridContainer>
@@ -193,25 +203,83 @@ export default function DetailHistoryGame({match}) {
 
                         </div>
                         <GridContainer justify="flex-start">
-                            <GridItem xs={7} sm={7} md={7} className={classes.navWrapper} style={{ border: "2px solid #5bc0de", borderRight: 'none', borderBottom: 'none' }}>
-                                <h5>Thông tin cơ bản trận đấu</h5>
-                                <h6>-------------</h6>
-                                <ul style={{ textAlign: 'left', marginTop: '15px', marginLeft: '50px' }}>
-                                    <li><b>Trận đấu giữa:  &nbsp; &nbsp;<span style={{ color: 'blue' }}>{data.me_fullname}</span> &nbsp;&nbsp;- &nbsp;&nbsp; <span style={{ color: 'red' }}>{data.enemy_fullname}</span></b></li>
-                                    <li><b>Tên phòng: &nbsp;&nbsp;</b> {data.boardName}</li>
-                                    <li><b>Thời gian: &nbsp;&nbsp;</b>{data.time}</li>
-                                    <li><b>Người thắng: &nbsp;&nbsp;<span style={{ color: data.result === 1 ? 'blue' : 'red' }}>{data.result === 1 ? data.me_fullname : data.enemy_fullname}</span></b></li>
-                                    <li><b>Elo của bạn dành được: &nbsp;&nbsp;</b>{data.eloGot}</li>
-                                </ul>
-                            </GridItem>
-                            <GridItem xs={5} sm={5} md={5} className={classes.navWrapper} style={{ border: "2px solid #5bc0de", borderBottom: 'none' }}>
-                                <div className={classes.container}>
+                            <GridItem xs={3} sm={3} md={3} className={classes.navWrapper}>
+                                <div className={classes.containerLarge}>
                                     <GridContainer justify="center" style={{ marginTop: "30px" }}>
                                         <GridItem xs={12} sm={12} md={12}>
                                             <Card className={classes[cardAnimaton]}>
                                                 <form className={classes.form}>
                                                     <CardHeader color="info" className={classes.cardHeader}>
-                                                        <h4>Lịch sử trò chuyện</h4>
+                                                        <h4>Match Detail</h4>
+                                                        <div className={classes.socialLine}>
+
+                                                        </div>
+                                                    </CardHeader>
+                                                    <CardBody>
+                                                        <List className={classes.root} style={{ maxHeight: '383px', overflow: 'auto' }}>
+                                                            <Button variant="outline-success" style={{paddingLeft: "5px", paddingRight: "5px" }}>{data.me_fullname}</Button>
+                                                            {" VS "}
+                                                            <Button variant="outline-danger" style={{paddingLeft: "5px", paddingRight: "5px" }}>{data.enemy_fullname}</Button>
+                                                            <br></br><br></br>
+                                                            <Tooltip title="Board Name" placement="left">
+                                                                <ListItem button>
+                                                                    <ListItemIcon>
+                                                                    <AssignmentInd></AssignmentInd>
+                                                                    </ListItemIcon>
+                                                                    <ListItemText primary={data.boardName} />
+                                                                </ListItem>
+                                                            </Tooltip>
+                                                            <Tooltip title="Winner" placement="left">
+                                                                <ListItem button>
+                                                                    <ListItemIcon>
+                                                                    <FontAwesomeIcon
+                                                                        icon={faTrophy}
+                                                                    ></FontAwesomeIcon>
+                                                                    </ListItemIcon>
+                                                                    <ListItemText primary={data.result === 1 ? data.me_fullname : data.enemy_fullname} style={{ color: data.result === 1 ? 'blue' : 'red' }}/>
+                                                                </ListItem>
+                                                            </Tooltip>
+                                                            <Tooltip title="Date" placement="left">
+                                                                <ListItem button>
+                                                                <ListItemIcon>
+                                                                <Today></Today>
+                                                                </ListItemIcon>
+                                                                    <ListItemText primary={data.time} />
+                                                                </ListItem>
+                                                            </Tooltip>
+                                                            <Tooltip title="Elo Gained" placement="left">
+                                                                <ListItem button>
+                                                                    <ListItemIcon>
+                                                                    <Grade></Grade>
+                                                                    </ListItemIcon>
+                                                                    <ListItemText primary={data.eloGot} />
+                                                                </ListItem>
+                                                            </Tooltip>
+                                                        </List>
+                                                    </CardBody>
+                                                    <CardFooter className={classes.cardFooter}>
+
+                                                    </CardFooter>
+                                                </form>
+                                            </Card>
+                                        </GridItem>
+                                    </GridContainer>
+                                </div>
+                            </GridItem>
+                            <GridItem xs={6} sm={6} md={6} className={classes.navWrapper}>
+                                {/* <h5>Bàn cờ</h5>, */}
+                                <br></br>
+                                <BoardShow matrix={data.stepHistory} indexClick={historyIndexClick} winningLine={data.winningLine}></BoardShow>
+                                <h1></h1>
+                            </GridItem>
+                            <GridItem xs={3} sm={3} md={3} className={classes.navWrapper}>
+                                <div className={classes.containerLarge}>
+                                    <GridContainer justify="center" style={{ marginTop: "30px" }}>
+                                        <GridItem xs={12} sm={12} md={12}>
+                                            <Card className={classes[cardAnimaton]}>
+                                                <form className={classes.form}>
+                                                    <CardHeader color="info" className={classes.cardHeader}>
+                                                        <h4>Chats</h4>
                                                         <div className={classes.socialLine}>
 
                                                         </div>
@@ -228,24 +296,12 @@ export default function DetailHistoryGame({match}) {
                                             </Card>
                                         </GridItem>
                                     </GridContainer>
-                                </div>
-                            </GridItem>
-                            {/* <GridItem xs={12} sm={12} md={9} className={classes.navWrapper}  style={{border: "2px solid black"}}>
-                                <h4>Chi tiết bàn cờ</h4>
-                            </GridItem> */}
-                            <GridItem xs={8} sm={8} md={8} className={classes.navWrapper} style={{ border: "2px solid #5bc0de", marginTop: '-50px', borderRight: "none" }}>
-                                <h5>Bàn cờ</h5>,
-                                <BoardShow matrix={data.stepHistory} indexClick={historyIndexClick} winningLine={data.winningLine}></BoardShow>
-                                <h1></h1>
-                            </GridItem>
-                            <GridItem xs={4} sm={4} md={4} className={classes.navWrapper} style={{ border: "2px solid #5bc0de", marginTop: '-50px' }}>
-                                <div className={classes.container}>
                                     <GridContainer justify="center" style={{ marginTop: "30px" }}>
                                         <GridItem xs={12} sm={12} md={12}>
                                             <Card className={classes[cardAnimaton]}>
                                                 <form className={classes.form}>
                                                     <CardHeader color="info" className={classes.cardHeader}>
-                                                        <h4>Lịch sử bước đi</h4>
+                                                        <h4>Steps</h4>
                                                         <div className={classes.socialLine}>
 
                                                         </div>
